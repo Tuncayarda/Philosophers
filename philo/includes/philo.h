@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/04/17 18:18:50 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/04/17 18:30:02 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # define PHILO_COUNT_MAX 200
+# define PHILO_COUNT_MIN 1
 
 # include <pthread.h>
 # include <stdio.h>
