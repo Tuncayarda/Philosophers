@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/04/23 02:05:54 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/04/23 02:17:05 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define PHILO_COUNT_UNDERFLOW "PHILO COUNT UNDERFLOW"
 # define PHILO_COUNT_OVERFLOW "PHILO COUNT OVERFLOW"
 # define MEMORY_FAILURE "MEMORY ERROR"
+# define THREAD_FAILURE "THREAD ERROR"
 
 # include <pthread.h>
 # include <stdio.h>
@@ -35,16 +36,16 @@ typedef struct	s_philo
 	size_t		id;
 	size_t		eaten_meals;
 	size_t		last_meal;
+	size_t		time_to_die;
+	size_t		time_to_eat;
+	size_t		time_to_sleep;
+	long		meals_to_finish;
 }				t_philo;
 
 typedef	struct	s_program
 {
 	t_philo		*philos;
 	size_t		philo_count;
-	size_t		time_to_die;
-	size_t		time_to_eat;
-	size_t		time_to_sleep;
-	long		meals_to_finish;
 	size_t		start_time;
 }				t_program;
 
