@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/04/20 03:20:10 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/04/23 02:05:54 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	check_errors(int ac, char **av);
 long	ft_atoi(const char *str);
 t_program	init_program(int ac, char **av);
 size_t	get_current_millis(void);
-void	philo_routine(void);
+void	ft_usleep(size_t mls);
+void	*philo_routine(void *arg);
 
 #endif

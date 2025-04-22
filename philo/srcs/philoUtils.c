@@ -1,6 +1,8 @@
 #include "philo.h"
 
-void	philo_routine(void)
+void	*philo_routine(void *arg)
 {
-	// code
+	printf("sa\n");
+
+    return NULL;
 }

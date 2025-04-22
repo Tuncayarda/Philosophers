@@ -2,7 +2,7 @@
 
 t_program	init_program(int ac, char **av)
 {
-	int			i;
+	size_t			i;
 	t_program	rtn;
 
 	rtn.philo_count = ft_atoi(av[1]);
