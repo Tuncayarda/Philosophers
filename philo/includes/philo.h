@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/04/23 02:17:05 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:06:24 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,24 @@
 
 typedef struct	s_philo
 {
-	pthread_t	thread;
-	size_t		id;
-	size_t		eaten_meals;
-	size_t		last_meal;
-	size_t		time_to_die;
-	size_t		time_to_eat;
-	size_t		time_to_sleep;
-	long		meals_to_finish;
+	pthread_t		thread;
+	size_t			id;
+	size_t			eaten_meals;
+	size_t			last_meal;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	long			meals_to_finish;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	r_fork;
 }				t_philo;
 
 typedef	struct	s_program
 {
-	t_philo		*philos;
-	size_t		philo_count;
-	size_t		start_time;
+	t_philo			*philos;
+	size_t			philo_count;
+	size_t			start_time;
+	pthread_mutex_t	*forks;
 }				t_program;
 
 

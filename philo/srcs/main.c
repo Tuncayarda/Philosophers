@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 02:18:42 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/04/23 02:29:28 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:19:16 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int ac, char **av)
 	program = init_program(ac, av);
 
 	i = 0;
-	/*
+	
 	while (i < program.philo_count)
 	{
 		printf("Philosopher %zu:\n", i + 1);
@@ -30,11 +30,8 @@ int main(int ac, char **av)
 		printf("  Time to die: %zu\n", program.philos[i].time_to_die);
 		printf("  Time to eat: %zu\n", program.philos[i].time_to_eat);
 		printf("  Time to sleep: %zu\n", program.philos[i].time_to_sleep);
-		printf("  Meals to finish: %zu\n", program.philos[i].meals_to_finish);
+		printf("  Meals to finish: %zi\n", program.philos[i].meals_to_finish);
 		printf("  Last meal timestamp: %zu\n\n", program.philos[i].last_meal);
 		i++;
-	}*/
-
-	for (size_t i = 0; i < program.philo_count; i++)
-		pthread_join(program.philos[i].thread, NULL);
+	}
 }
