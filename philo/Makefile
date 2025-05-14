@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -fsanitize=address -g
 
 SRC_FILES = $(wildcard srcs/*.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)

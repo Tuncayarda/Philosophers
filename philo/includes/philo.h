@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/06 16:06:24 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:15:35 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ typedef	struct	s_program
 	t_philo			*philos;
 	size_t			philo_count;
 	size_t			start_time;
+	size_t			thread_count;
+	uint8_t			philo_status;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	prog_mutex;
 }				t_program;
 
 
@@ -60,5 +63,5 @@ t_program	init_program(int ac, char **av);
 size_t	get_current_millis(void);
 void	ft_usleep(size_t mls);
 void	*philo_routine(void *arg);
-
+void	born_philos(t_program *prog);
 #endif

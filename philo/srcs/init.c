@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/06 16:40:14 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:17:23 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ static t_philo		*init_philos(int ac, char **av, t_program *prog)
 		philos[i].meals_to_finish = -1;
 		if (ac == 6)
 			philos[i].meals_to_finish = ft_atoi(av[5]) ;
-		if (pthread_create(&philos[i].thread,
-			NULL, philo_routine, &philos[i]) != 0)
-			handle_error(THREAD_FAILURE, EXIT_FAILURE);
 		i++;
 	}
 	return (philos);
@@ -77,6 +74,7 @@ t_program	init_program(int ac, char **av)
 
 	prog.philo_count = ft_atoi(av[1]);
 	prog.start_time = get_current_millis();
+	pthread_mutex_init(&prog.prog_mutex, NULL);
 	prog.philos = init_philos(ac, av, &prog);
 	prog.forks = init_mutexes(&prog);
 	return (prog);
