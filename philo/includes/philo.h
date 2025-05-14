@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 16:15:35 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/14 17:25:26 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef	struct	s_program
 	size_t			philo_count;
 	size_t			start_time;
 	size_t			thread_count;
-	uint8_t			philo_status;
+	int				philo_status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prog_mutex;
 }				t_program;

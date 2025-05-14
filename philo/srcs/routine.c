@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:37 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 17:09:04 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/14 20:29:38 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void	born_check(t_program *prog)
 {
+	pthread_mutex_lock(&prog->prog_mutex);
 	while (1)
 	{ 
 		if (prog->philo_count == prog->thread_count)
 			break;
 	}
+	pthread_mutex_unlock(&prog->prog_mutex);
 }
 
 void	*live(void *arg)
@@ -43,7 +45,6 @@ void	born_philos(t_program *prog)
 		pthread_create(&prog->philos[prog->thread_count].thread, NULL, live, prog);
 		prog->thread_count++;
 	}
-
 	while (i < prog->philo_count)
 	{
 		pthread_join(prog->philos[i].thread, NULL);

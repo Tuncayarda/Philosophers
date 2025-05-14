@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 16:17:23 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/14 20:33:44 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_philo		*init_philos(int ac, char **av, t_program *prog)
 	philos = malloc(prog->philo_count * sizeof(t_philo));
 	if (!philos)
 		handle_error(MEMORY_FAILURE, 1);
-	i = 0;
+	i = 0; 
 	while (i < prog->philo_count)
 	{
 		philos[i].id = i;
