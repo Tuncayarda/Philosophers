@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 20:33:44 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:51:48 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ static pthread_mutex_t	*init_mutexes(t_program *prog)
 	return (mtxs);
 }
 
-static void			assign_fork(t_program *prog, t_philo *philo)
+static void			assign_forks(t_program *prog, t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		philo->r_fork = prog->forks[philo->id];
-		philo->l_fork = prog->forks[philo->id + 1 % prog->philo_count];
+		philo->r_fork = &prog->forks[philo->id];
+		philo->l_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
 	}
 	else
 	{
-		philo->l_fork = prog->forks[philo->id];
-		philo->r_fork = prog->forks[philo->id + 1 % prog->philo_count];
+		philo->l_fork = &prog->forks[philo->id];
+		philo->r_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
 	}
 	
 }
@@ -55,10 +55,13 @@ static t_philo		*init_philos(int ac, char **av, t_program *prog)
 	{
 		philos[i].id = i;
 		philos[i].eaten_meals = 0;
-		philos[i].time_to_die = ft_atoi(av[2]) * 1000;
-		philos[i].time_to_eat = ft_atoi(av[3]) * 1000;
-		philos[i].time_to_sleep = ft_atoi(av[4]) * 1000;
+		philos[i].time_to_die = ft_atoi(av[2]);
+		philos[i].time_to_eat = ft_atoi(av[3]);
+		philos[i].time_to_sleep = ft_atoi(av[4]);
+		philos[i].last_meal = get_current_millis();
 		philos[i].meals_to_finish = -1;
+		philos[i].prog = prog;
+		assign_forks(prog, &philos[i]);
 		if (ac == 6)
 			philos[i].meals_to_finish = ft_atoi(av[5]) ;
 		i++;
@@ -67,15 +70,17 @@ static t_philo		*init_philos(int ac, char **av, t_program *prog)
 }
 
 
-t_program	init_program(int ac, char **av)
+t_program	*init_program(int ac, char **av)
 {
 	size_t		i;
-	t_program	prog;
+	t_program	*prog;
 
-	prog.philo_count = ft_atoi(av[1]);
-	prog.start_time = get_current_millis();
-	pthread_mutex_init(&prog.prog_mutex, NULL);
-	prog.philos = init_philos(ac, av, &prog);
-	prog.forks = init_mutexes(&prog);
+	prog = malloc(sizeof(t_program));
+	if (!prog)
+		handle_error(MEMORY_FAILURE, 1);
+	prog->philo_count = ft_atoi(av[1]);
+	pthread_mutex_init(&prog->prog_mutex, NULL);
+	prog->forks = init_mutexes(prog);
+	prog->philos = init_philos(ac, av, prog);
 	return (prog);
 }

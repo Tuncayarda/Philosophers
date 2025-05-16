@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 17:25:26 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:05:28 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,26 @@
 # include <limits.h>
 # include <stdlib.h>
 
+typedef struct s_program t_program;
+typedef struct s_philo t_philo;
 
-typedef struct	s_philo
+struct	s_philo
 {
-	pthread_t		thread;
-	size_t			id;
-	size_t			eaten_meals;
-	size_t			last_meal;
-	size_t			time_to_die;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
-	long			meals_to_finish;
-	pthread_mutex_t	l_fork;
-	pthread_mutex_t	r_fork;
-}				t_philo;
+	pthread_t			thread;
+	size_t				id;
+	size_t				eaten_meals;
+	size_t				last_meal;
+	size_t				time_to_die;
+	size_t				time_to_eat;
+	size_t				time_to_sleep;
+	long				meals_to_finish;
+	pthread_mutex_t		*l_fork;
+	pthread_mutex_t		*r_fork;
+	struct s_program	*prog;
+	
+};
 
-typedef	struct	s_program
+struct	s_program
 {
 	t_philo			*philos;
 	size_t			philo_count;
@@ -53,15 +57,19 @@ typedef	struct	s_program
 	int				philo_status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prog_mutex;
-}				t_program;
+};
 
 
-void	handle_error(char *error_msg, int exit_code);
-void	check_errors(int ac, char **av);
-long	ft_atoi(const char *str);
-t_program	init_program(int ac, char **av);
-size_t	get_current_millis(void);
-void	ft_usleep(size_t mls);
-void	*philo_routine(void *arg);
-void	born_philos(t_program *prog);
+void		handle_error(char *error_msg, int exit_code);
+void		check_errors(int ac, char **av);
+long		ft_atoi(const char *str);
+t_program	*init_program(int ac, char **av);
+size_t		get_current_millis(void);
+void		ft_usleep(size_t mls);
+void		*philo_routine(void *arg);
+void		born_philos(t_program *prog);
+void		philo_eat(t_philo *philo);
+void		philo_print(t_philo *philo, char *msg);
+void		philo_sleep(t_philo *philo);
+void		death_check(t_program *prog);
 #endif

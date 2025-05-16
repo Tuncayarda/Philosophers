@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 02:18:42 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 17:08:16 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:26:18 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int main(int ac, char **av)
 {
-	t_program	program;
+	t_program	*program;
 
 	size_t		i;
 
 	check_errors(ac, av);
 	program = init_program(ac, av);
-	born_philos(&program);
+	born_philos(program);
 
 	i = 0;
 	/*

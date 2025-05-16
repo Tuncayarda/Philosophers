@@ -6,11 +6,32 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:37 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/14 20:29:38 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:07:50 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	death_check(t_program *prog)
+{
+	size_t	i;
+	int	loop = 1;
+	i = 0;
+	while (loop)
+	{
+		i = 0;
+		while (i < prog->philo_count)
+		{
+			if ((get_current_millis() - prog->philos[i].last_meal) > prog->philos[i].time_to_die)
+			{
+				loop = 0;
+				exit(1);
+				break;
+			}
+			i++;
+		}	
+	}
+}
 
 void	born_check(t_program *prog)
 {
@@ -25,11 +46,21 @@ void	born_check(t_program *prog)
 
 void	*live(void *arg)
 {
-	t_program	*prog;
+	t_philo	*philo;
 
-	prog = (t_program *)arg;
-	born_check(prog);
-	printf("%s", "slm\n");
+	philo = (t_philo *)arg;
+	born_check(philo->prog);
+	philo->prog->start_time = get_current_millis();
+	if (philo->id % 2 != 0)
+		ft_usleep(10);
+	while (1)
+	{
+		philo_eat(philo);
+		philo_sleep(philo);
+		
+	}
+	
+	
 	
 	
 	return (NULL);
@@ -40,14 +71,17 @@ void	born_philos(t_program *prog)
 	size_t	i;
 
 	i = 0;
+	prog->thread_count = 0;
 	while (prog->thread_count < prog->philo_count)
 	{
-		pthread_create(&prog->philos[prog->thread_count].thread, NULL, live, prog);
+		pthread_create(&prog->philos[prog->thread_count].thread, 
+				NULL, live, &prog->philos[prog->thread_count]);
 		prog->thread_count++;
 	}
-	while (i < prog->philo_count)
+	death_check(prog);
+	/*while (i < prog->philo_count)
 	{
 		pthread_join(prog->philos[i].thread, NULL);
 		i++;
-	}
+	}*/
 }
