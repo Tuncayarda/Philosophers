@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:30 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 15:09:08 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/17 00:23:29 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,3 @@ void	philo_eat(t_philo *philo)
 	leave_forks(philo);
     
 }
-
-
-/*
-	phşlo();
-	
-	
-	join()
-*/

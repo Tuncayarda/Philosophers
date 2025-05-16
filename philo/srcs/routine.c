@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:37 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 15:27:18 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/17 00:24:58 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,7 @@ void	*live(void *arg)
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
-		
 	}
-	
-	
-	
-	
 	return (NULL);
 }
 
@@ -79,9 +74,4 @@ void	born_philos(t_program *prog)
 		prog->thread_count++;
 	}
 	death_check(prog);
-	/*while (i < prog->philo_count)
-	{
-		pthread_join(prog->philos[i].thread, NULL);
-		i++;
-	}*/
 }
