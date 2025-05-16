@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 14:51:48 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:23:08 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static pthread_mutex_t	*init_mutexes(t_program *prog)
 
 	i = 0;
 	mtxs = malloc(sizeof(pthread_mutex_t) * prog->philo_count);
+	if (mtxs == NULL)
+		return (NULL);
 	while (i < prog->philo_count)
 	{
 		pthread_mutex_init(&mtxs[i], NULL);
@@ -78,6 +80,7 @@ t_program	*init_program(int ac, char **av)
 	prog = malloc(sizeof(t_program));
 	if (!prog)
 		handle_error(MEMORY_FAILURE, 1);
+	pthread_mutex_init(&prog->print_mutex, NULL);
 	prog->philo_count = ft_atoi(av[1]);
 	pthread_mutex_init(&prog->prog_mutex, NULL);
 	prog->forks = init_mutexes(prog);

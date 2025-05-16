@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:37 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 15:07:50 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:27:18 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	death_check(t_program *prog)
 			if ((get_current_millis() - prog->philos[i].last_meal) > prog->philos[i].time_to_die)
 			{
 				loop = 0;
-				exit(1);
+				philo_print(&prog->philos[i], "died");
 				break;
 			}
 			i++;
