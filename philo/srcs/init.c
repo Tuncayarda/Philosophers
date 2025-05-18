@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 15:23:08 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/18 05:19:04 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static t_philo		*init_philos(int ac, char **av, t_program *prog)
 		philos[i].last_meal = get_current_millis();
 		philos[i].meals_to_finish = -1;
 		philos[i].prog = prog;
+		philos[i].must_eat = true;
 		assign_forks(prog, &philos[i]);
 		if (ac == 6)
 			philos[i].meals_to_finish = ft_atoi(av[5]) ;
@@ -85,5 +86,6 @@ t_program	*init_program(int ac, char **av)
 	pthread_mutex_init(&prog->prog_mutex, NULL);
 	prog->forks = init_mutexes(prog);
 	prog->philos = init_philos(ac, av, prog);
+	prog->finished_philos = 0;
 	return (prog);
 }

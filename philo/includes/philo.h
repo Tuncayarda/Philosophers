@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/16 15:21:45 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/18 05:19:20 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_program t_program;
 typedef struct s_philo t_philo;
@@ -42,6 +43,7 @@ struct	s_philo
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	long				meals_to_finish;
+	bool				must_eat;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
 	struct s_program	*prog;
@@ -54,6 +56,7 @@ struct	s_program
 	size_t			philo_count;
 	size_t			start_time;
 	size_t			thread_count;
+	size_t			finished_philos;
 	int				philo_status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prog_mutex;
@@ -72,5 +75,6 @@ void		born_philos(t_program *prog);
 void		philo_eat(t_philo *philo);
 void		philo_print(t_philo *philo, char *msg);
 void		philo_sleep(t_philo *philo);
-void		death_check(t_program *prog);
+void		routine_check(t_program *prog);
+
 #endif

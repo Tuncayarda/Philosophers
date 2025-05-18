@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:30 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/17 00:23:29 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/18 05:30:48 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	philo_sleep(t_philo *philo)
 	philo_print(philo, "is sleeping");
 	ft_usleep(philo->time_to_sleep);
 	philo_print(philo, "is thinking");
-	philo->eaten_meals++;
 }
 
 void	leave_forks(t_philo *philo)
@@ -50,6 +49,8 @@ void	philo_eat(t_philo *philo)
 	take_forks(philo);
 	philo_print(philo, "is eating");
 	philo->last_meal = get_current_millis();
+	if (philo->meals_to_finish != -1)
+		philo->eaten_meals++;
 	ft_usleep(philo->time_to_eat);
 	leave_forks(philo);
     
