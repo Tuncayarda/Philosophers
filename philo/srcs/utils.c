@@ -1,12 +1,21 @@
-#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/18 05:50:56 by tuaydin           #+#    #+#             */
+/*   Updated: 2025/05/18 08:05:36 by tuaydin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	handle_error(char *error_msg, int exit_code)
-{
-	printf("%s\n", error_msg);
-	exit(exit_code);
-}
+#include "philo.h"
 
 void	philo_print(t_philo *philo, char *msg)
 {
-	printf("%zu %zu %s\n", get_current_millis() - philo->prog->start_time, philo->id, msg);
+	printf("%zu %zu %s\n", 
+		get_current_millis() - philo->prog->start_time,
+		philo->id + 1,
+		msg);
 }

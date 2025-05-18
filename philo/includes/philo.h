@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 00:21:00 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/18 05:19:20 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/18 08:31:33 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define PHILO_COUNT_OVERFLOW "PHILO COUNT OVERFLOW"
 # define MEMORY_FAILURE "MEMORY ERROR"
 # define THREAD_FAILURE "THREAD ERROR"
+# define GET_TIME_OF_DAY_ERROR "GET_TIME_OF_DAY_ERROR"
 
 # include <pthread.h>
 # include <stdio.h>
@@ -43,6 +44,7 @@ struct	s_philo
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	long				meals_to_finish;
+	bool				alive;
 	bool				must_eat;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
@@ -56,18 +58,15 @@ struct	s_program
 	size_t			philo_count;
 	size_t			start_time;
 	size_t			thread_count;
-	size_t			finished_philos;
 	int				philo_status;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prog_mutex;
 	pthread_mutex_t	print_mutex;
 };
 
-
-void		handle_error(char *error_msg, int exit_code);
-void		check_errors(int ac, char **av);
+char		*check_errors(int ac, char **av);
 long		ft_atoi(const char *str);
-t_program	*init_program(int ac, char **av);
+char		*init_program(t_program **prog_ptr, int ac, char **av);
 size_t		get_current_millis(void);
 void		ft_usleep(size_t mls);
 void		*philo_routine(void *arg);
