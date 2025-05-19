@@ -3,13 +3,6 @@
 > An implementation of Edsger Dijkstra’s famous **Dining Philosophers** concurrency problem, written in C for the 42 Cursus.  
 > The goal is to model five (or more) philosophers who must share forks, eat, think and sleep without starving or dead-locking each other.:contentReference[oaicite:0]{index=0}
 
-## ✨ Key Points
-
-- **POSIX threads & mutexes** — the mandatory target `philo` uses a one-process / multi-thread design and protects every shared fork with a `pthread_mutex_t`.:contentReference[oaicite:1]{index=1}  
-- **Clean timing layer** — all delays are expressed in *real* milliseconds via `gettimeofday(…)` + a custom `ft_usleep`, keeping drift under ±1 ms on Linux.:contentReference[oaicite:2]{index=2}  
-- **Robust life-cycle** — on any fatal error the program frees every mutex, joins/detaches threads appropriately and returns a descriptive error string for 42 grading.:contentReference[oaicite:3]{index=3}  
-- **Strict 42 Norm compliance** — every function is ≤25 lines (longer routines are split), no global variables, `Makefile` supports the usual `all/clean/fclean/re`.:contentReference[oaicite:4]{index=4}
-
 ## 📁 Directory Layout
 
 | Path | Purpose |
