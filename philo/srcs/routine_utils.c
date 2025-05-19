@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:30 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 20:27:46 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/19 22:14:27 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,9 @@ void	leave_forks(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	size_t			count;
-	pthread_mutex_t	*first;
-	pthread_mutex_t	*second;
-
-	count = philo->prog->philo_count;
-	if (philo->id < (philo->id + 1) % count)
-	{
-		first = &philo->prog->forks[philo->id];
-		second = &philo->prog->forks[(philo->id + 1) % count];
-	}
-	else
-	{
-		first = &philo->prog->forks[(philo->id + 1) % count];
-		second = &philo->prog->forks[philo->id];
-	}
-	pthread_mutex_lock(first);
+	pthread_mutex_lock(philo->l_fork);
 	philo_print(philo, "has taken a fork");
-	pthread_mutex_lock(second);
+	pthread_mutex_lock(philo->r_fork);
 	philo_print(philo, "has taken a fork");
 }
 
