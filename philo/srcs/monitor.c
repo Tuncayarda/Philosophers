@@ -6,72 +6,87 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/18 08:04:05 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:51:15 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	dismantle_all(t_program *prog)
-{
-	size_t	i;
-
-	i = 0;
-	while(i < prog->philo_count)
-	{
-		pthread_detach(prog->philos[i].thread);
-		i++;
-	}
-}
-
 bool	check_all(t_program *prog)
 {
 	size_t	i;
+	size_t	count;
 
+	pthread_mutex_lock(&prog->state_mutex);
+	count = prog->philo_count;
 	i = 0;
-	while (i < prog->philo_count)
+	while (i < count)
 	{
 		if (!prog->philos[i].alive)
 		{
-			dismantle_all(prog);
+			i = 0;
+			while (i < count)
+			{
+				prog->philos[i].alive = false;
+				i++;
+			}
+			pthread_mutex_unlock(&prog->state_mutex);
 			return (false);
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&prog->state_mutex);
 	return (true);
 }
 
 bool	check_death_status(t_program *prog, t_philo *philo, size_t idx)
 {
-	if ((get_current_millis() - prog->philos[idx].last_meal) > 
-				prog->philos[idx].time_to_die)
+	size_t	i;
+
+	pthread_mutex_lock(&prog->state_mutex);
+	if (get_current_millis()
+		- prog->philos[idx].last_meal > prog->philos[idx].time_to_die)
 	{
+		prog->philos[idx].alive = false;
+		i = 0;
+		while (i < prog->philo_count)
+			prog->philos[i++].alive = false;
+		pthread_mutex_unlock(&prog->state_mutex);
 		philo_print(philo, "died");
-		philo->alive = false;
+		pthread_mutex_lock(&prog->state_mutex);
+		prog->finished = true;
+		pthread_mutex_unlock(&prog->state_mutex);
 		return (false);
 	}
+	pthread_mutex_unlock(&prog->state_mutex);
 	return (true);
+}
+
+static void	clear_all(t_program *prog)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < prog->philo_count)
+		prog->philos[i++].alive = false;
 }
 
 bool	check_meal_status(t_program *prog, t_philo *philo, size_t idx)
 {
 	size_t	i;
-	
-	i = 0;
-	if (prog->philos[idx].eaten_meals == prog->philos[idx].meals_to_finish && 
-			prog->philos[idx].alive)
-	{
+
+	pthread_mutex_lock(&prog->state_mutex);
+	if (prog->philos[idx].meals_to_finish != -1
+		&& prog->philos[idx].eaten_meals == prog->philos[idx].meals_to_finish
+		&& prog->philos[idx].alive)
 		prog->philos[idx].must_eat = false;
-	}
-	while (i < prog->philo_count && prog->philos[i].must_eat == false)
+	i = 0;
+	while (i < prog->philo_count && !prog->philos[i].must_eat)
 		i++;
 	if (i == prog->philo_count)
-	{
-		dismantle_all(prog);
-		return (false);
-	}
-		
-	return (true);
+		clear_all(prog);
+	pthread_mutex_unlock(&prog->state_mutex);
+	return (i != prog->philo_count);
 }
 
 void	routine_check(t_program *prog)
@@ -87,14 +102,14 @@ void	routine_check(t_program *prog)
 		{
 			loop = check_death_status(prog, &prog->philos[i], i);
 			if (!loop)
-				break;
+				break ;
 			loop = check_meal_status(prog, &prog->philos[i], i);
 			if (!loop)
-				break;
+				break ;
 			loop = check_all(prog);
 			if (!loop)
-				break;
+				break ;
 			i++;
-		}	
+		}
 	}
 }

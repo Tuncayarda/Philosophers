@@ -6,13 +6,13 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 02:18:42 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/18 08:29:34 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:47:43 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_program	*program;
 	char		*error_msg;
@@ -24,13 +24,18 @@ int main(int ac, char **av)
 		printf("ERROR: %s\n", error_msg);
 		return (1);
 	}
-	error_msg = init_program(&program ,ac, av);
+	error_msg = init_program(&program, ac, av);
 	if (error_msg != NULL)
 	{
 		printf("ERROR: %s\n", error_msg);
 		return (1);
 	}
-	born_philos(program);
-
+	error_msg = born_philos(program);
+	if (error_msg != NULL)
+	{
+		printf("ERROR: %s\n", error_msg);
+		return (1);
+	}
+	set_program_free(program);
 	return (0);
 }

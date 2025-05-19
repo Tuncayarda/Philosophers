@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/18 08:32:05 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:52:09 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	assign_forks(t_program *prog, t_philo *philo)
 	}
 }
 
-
 static char	*init_single_philo(t_program *prog, char **av, int ac, int i)
 {
 	prog->philos[i].id = i;
@@ -64,6 +63,7 @@ static char	*init_single_philo(t_program *prog, char **av, int ac, int i)
 	prog->philos[i].alive = true;
 	prog->philos[i].must_eat = true;
 	assign_forks(prog, &prog->philos[i]);
+	return (NULL);
 }
 
 char	*init_philos(int ac, char **av, t_program *prog)
@@ -82,7 +82,6 @@ char	*init_philos(int ac, char **av, t_program *prog)
 	return (NULL);
 }
 
-
 char	*init_program(t_program **prog_ptr, int ac, char **av)
 {
 	char	*error;
@@ -90,8 +89,10 @@ char	*init_program(t_program **prog_ptr, int ac, char **av)
 	*prog_ptr = malloc(sizeof(t_program));
 	if (!*prog_ptr)
 		return (MEMORY_FAILURE);
-	pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL);
+	(*prog_ptr)->finished = false;
 	(*prog_ptr)->philo_count = ft_atoi(av[1]);
+	pthread_mutex_init(&(*prog_ptr)->state_mutex, NULL);
+	pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL);
 	pthread_mutex_init(&(*prog_ptr)->prog_mutex, NULL);
 	(*prog_ptr)->forks = init_mutexes(*prog_ptr);
 	if (!(*prog_ptr)->forks)
