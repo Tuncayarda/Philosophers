@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:17:37 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 22:02:29 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/19 22:19:33 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	*born_philos(t_program *prog)
 	i = 0;
 	prog->start_time = get_current_millis();
 	prog->thread_count = 0;
-	while (prog->thread_count < prog->philo_count)
+	while (prog->thread_count < prog->philo_count
+		&& prog->philo_count > 1)
 	{
 		pthread_create(&prog->philos[prog->thread_count].thread, NULL, live,
 			&prog->philos[prog->thread_count]);
