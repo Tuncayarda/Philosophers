@@ -3,8 +3,6 @@
 > An implementation of Edsger Dijkstra’s famous **Dining Philosophers** concurrency problem, written in C for the 42 Cursus.  
 > The goal is to model five (or more) philosophers who must share forks, eat, think and sleep without starving or dead-locking one another.
 
----
-
 ## 📁 Directory Layout
 
 | Path | Purpose |
@@ -14,8 +12,6 @@
 | **`philo/srcs/`** | All implementation files (`main.c`, `init.c`, `routine.c`, `utils.c`, …). |
 | **`philo/objs/`** | Auto-generated object files (ignored by Git). |
 | **`.gitignore`** | Excludes build artefacts and common temp files. |
-
----
 
 ## 🛠️ Compilation
 
@@ -28,8 +24,6 @@ make re         # full rebuild
 ````
 
 The code is pure ANSI C; any modern **GCC** or **Clang** tool-chain works. No extra libraries are required beyond **pthread** (linked automatically by the Makefile).
-
----
 
 ## 🚀 Usage
 
@@ -55,8 +49,6 @@ $ ./philo 5 310 200 100
 0 1 is eating
 ...
 ```
-
----
 
 ## 🧩 Algorithm Overview
 
@@ -85,8 +77,6 @@ $ ./philo 5 310 200 100
 The four classic dead-lock conditions—**mutual exclusion**, **hold-and-wait**, **no pre-emption** and **circular wait**—are neutralised here through lock ordering (odd/even strategy) and timely fork release.
 
 </details>
-
----
 
 ## 🧪 Testing & Debugging
 
