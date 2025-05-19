@@ -1,21 +1,23 @@
 # Philosophers
 
 > An implementation of Edsger Dijkstra’s famous **Dining Philosophers** concurrency problem, written in C for the 42 Cursus.  
-> The goal is to model five (or more) philosophers who must share forks, eat, think and sleep without starving or dead-locking each other.:contentReference[oaicite:0]{index=0}
+> The goal is to model five (or more) philosophers who must share forks, eat, think and sleep without starving or dead-locking one another.
+
+---
 
 ## 📁 Directory Layout
 
 | Path | Purpose |
 |------|---------|
-| **`philo/Makefile`** | One-shot build script; creates `objs/`, compiles sources and links the final binary `philo`.:contentReference[oaicite:5]{index=5} |
-| **`philo/includes/`** | Public headers (`philo.h`) defining `t_philo`, `t_program` plus every helper signature.:contentReference[oaicite:6]{index=6} |
-| **`philo/srcs/`** | All implementation files (`main.c`, `init.c`, `routine.c`, `utils.c`, …).:contentReference[oaicite:7]{index=7} |
+| **`philo/Makefile`** | Builds the project; creates `objs/`, compiles sources and links the final binary `philo`. |
+| **`philo/includes/`** | Public headers (`philo.h`) defining `t_philo`, `t_program` and helper prototypes. |
+| **`philo/srcs/`** | All implementation files (`main.c`, `init.c`, `routine.c`, `utils.c`, …). |
 | **`philo/objs/`** | Auto-generated object files (ignored by Git). |
-| **`.gitignore`** | Filters build artefacts and common temp files.:contentReference[oaicite:8]{index=8} |
+| **`.gitignore`** | Excludes build artefacts and common temp files. |
 
 ---
 
-## 🛠 Compilation
+## 🛠️ Compilation
 
 ```bash
 cd philo
@@ -25,7 +27,7 @@ make fclean     # removes object files + binary
 make re         # full rebuild
 ````
 
-The project is pure ANSI C; any modern **GNU tool-chain** or **Clang** works. No extra libraries are required beyond **pthread** (linked automatically by the Makefile).([GitHub][1])
+The code is pure ANSI C; any modern **GCC** or **Clang** tool-chain works. No extra libraries are required beyond **pthread** (linked automatically by the Makefile).
 
 ---
 
@@ -36,13 +38,13 @@ The project is pure ANSI C; any modern **GNU tool-chain** or **Clang** works. No
         [number_of_times_each_philosopher_must_eat]
 ```
 
-| Argument                                                   | Meaning                                                                            |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `number_of_philosophers`                                   | Count of philosophers *and* forks (1 – 200 as per subject).([GitHub][2])           |
-| `time_to_die`                                              | Max ms a philosopher may stay hungry before dying.                                 |
-| `time_to_eat`                                              | Eating time in ms (forks held).                                                    |
-| `time_to_sleep`                                            | Sleeping time in ms.                                                               |
-| `number_of_times_each_philosopher_must_eat` <br>(optional) | If set, the simulation stops once **every** philosopher has eaten this many times. |
+| Argument                                                 | Meaning                                                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `number_of_philosophers`                                 | Number of philosophers *and* forks (1 – 200, per the subject).                       |
+| `time_to_die`                                            | Maximum time in **milliseconds** a philosopher may stay hungry before dying.         |
+| `time_to_eat`                                            | Eating time in milliseconds (forks held).                                            |
+| `time_to_sleep`                                          | Sleeping time in milliseconds.                                                       |
+| `number_of_times_each_philosopher_must_eat` *(optional)* | If given, the simulation stops once **every** philosopher has eaten this many times. |
 
 ### Example
 
@@ -56,41 +58,40 @@ $ ./philo 5 310 200 100
 
 ---
 
-## 🧩 Algorithm Sketch
+## 🧩 Algorithm Overview
 
 1. **Initialization**
 
-   * Parse/validate CLI, allocate `t_program`, create `philo_count` mutexes (forks) and spawn one thread per philosopher.([GitHub][3])
+   * Parse and validate CLI arguments.
+   * Allocate a `t_program` instance, create `philo_count` mutexes (forks) and spawn one thread per philosopher.
+
 2. **Philosopher routine** (`philo_routine`)
 
-   * *Think* → *take forks* → *eat* → *sleep* in a loop while `alive == true`.
-   * Odd/even IDs pick up forks in opposite order to prevent circular wait.([GitHub][3])
+   * Repeats **think → take forks → eat → sleep** while `alive == true`.
+   * Odd and even IDs pick up forks in opposite order to avoid circular wait.
+
 3. **Monitor thread** (`routine_check`)
 
-   * Polls all philosophers; marks `alive = false` if `current_time - last_meal ≥ time_to_die`.
-   * When everyone has satisfied `meals_to_finish`, toggles the global `finished` flag so every routine can exit gracefully.([GitHub][4], [GitHub][3])
+   * Periodically checks each philosopher; sets `alive = false` if `now - last_meal ≥ time_to_die`.
+   * When everyone has satisfied `meals_to_finish`, flips a global `finished` flag so each routine can exit cleanly.
+
 4. **Shutdown**
 
-   * Join/detach every thread, destroy all mutexes and free heap buffers.
+   * Join or detach every thread, destroy all mutexes and free heap-allocated resources.
 
-> For those curious about the theory, the canonical dead-lock conditions (mutual exclusion, hold-and-wait, no pre-emption, circular wait) are the same obstacles we neutralise here with careful lock ordering.([Wikipedia][5], [man7.org][6])
+<details>
+<summary>Dead-lock theory</summary>
+
+The four classic dead-lock conditions—**mutual exclusion**, **hold-and-wait**, **no pre-emption** and **circular wait**—are neutralised here through lock ordering (odd/even strategy) and timely fork release.
+
+</details>
 
 ---
 
 ## 🧪 Testing & Debugging
 
-| Tool                 | Command                                  | Why                                                                                  |
-| -------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------ |
-| **Valgrind**         | `valgrind --leak-check=full ./philo …`   | Verifies zero leaks and detects invalid memory access.                               |
-| **AddressSanitizer** | `CFLAGS='-g -fsanitize=address' make re` | Fast runtime detection of out-of-bounds or use-after-free.                           |
-| **strace / ltrace**  | `strace -c ./philo …`                    | Measure sys-call footprint and blocking behaviour on mutexes/futexes.([man7.org][7]) |
-
----
-
-## 📚 Further Reading
-
-* 42 official subject PDF (EN version) for mandatory & bonus specs.([GitHub][2])
-* 42 Evaluation Sheet to cross-check grading expectations.([42-evaluation-sheets-hub.vercel.app][8])
-* *Dining Philosophers Problem* — Wikipedia overview & historical context.([Wikipedia][5])
-* POSIX Threads (pthreads(7)) manual for mutex primitives.([man7.org][6])
-* Medium article “Philosophers 42 Guide” for an approachable walk-through.([Medium][9])
+| Tool                 | Command                                  | Purpose                                                            |
+| -------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
+| **Valgrind**         | `valgrind --leak-check=full ./philo …`   | Detects leaks and invalid memory access.                           |
+| **AddressSanitizer** | `CFLAGS='-g -fsanitize=address' make re` | Fast runtime detection of out-of-bounds or use-after-free bugs.    |
+| **strace / ltrace**  | `strace -c ./philo …`                    | Measures system-call footprint and mutex/futex blocking behaviour. |
