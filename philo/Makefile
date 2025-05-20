@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_FILES = srcs/checkErrors.c srcs/init.c srcs/lib_utils.c \
 			srcs/main.c srcs/monitor.c srcs/routine_utils.c \

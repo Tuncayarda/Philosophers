@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 21:39:28 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 22:54:42 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ bool	check_death_status(t_program *prog, size_t idx)
 	i = 0;
 	pthread_mutex_lock(&prog->state_mutex);
 	if (get_current_millis()
-		- prog->philos[idx].last_meal > prog->philos[idx].time_to_die)
+		- prog->philos[idx].last_meal > prog->philos[idx].time_to_die
+		&& prog->philos[idx].must_eat)
 	{
 		pthread_mutex_unlock(&prog->state_mutex);
 		philo_print(&prog->philos[idx], "died");
@@ -73,5 +74,6 @@ void	routine_check(t_program *prog)
 					break ;
 			i++;
 		}
+		usleep(500);
 	}
 }

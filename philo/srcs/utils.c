@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 05:50:56 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 21:27:26 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 22:58:50 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	set_program_free(t_program *program)
 		pthread_mutex_destroy(&program->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&program->prog_mutex);
+	pthread_mutex_destroy(&program->print_mutex);
+	pthread_mutex_destroy(&program->state_mutex);
 	free(program->forks);
 	free(program->philos);
 	free(program);

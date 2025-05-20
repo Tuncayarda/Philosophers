@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:30 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 21:39:16 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 22:56:15 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	philo_eat(t_philo *philo)
 {
 	take_forks(philo);
 	philo_print(philo, "is eating");
-	if (philo->meals_to_finish != -1)
-		philo->eaten_meals++;
 	ft_usleep(philo->time_to_eat);
 	pthread_mutex_lock(&philo->prog->state_mutex);
+	if (philo->meals_to_finish != -1)
+		philo->eaten_meals++;
 	philo->last_meal = get_current_millis();
 	pthread_mutex_unlock(&philo->prog->state_mutex);
 	leave_forks(philo);
