@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 05:03:08 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 05:08:22 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ bool	check_death_status(t_program *prog, size_t idx)
 	return (true);
 }
 
-static void	clear_all(t_program *prog)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < prog->philo_count)
-		prog->philos[i++].alive = false;
-	prog->finished = true;
-}
-
 bool	check_meal_status(t_program *prog, size_t idx)
 {
 	size_t	i;
@@ -57,7 +47,12 @@ bool	check_meal_status(t_program *prog, size_t idx)
 	while (i < prog->philo_count && !prog->philos[i].must_eat)
 		i++;
 	if (i == prog->philo_count)
-		clear_all(prog);
+	{
+		i = 0;
+		while (i < prog->philo_count)
+			prog->philos[i++].alive = false;
+		prog->finished = true;
+	}
 	pthread_mutex_unlock(&prog->state_mutex);
 	return (i != prog->philo_count);
 }
@@ -73,10 +68,11 @@ void	routine_check(t_program *prog)
 		{
 			if (!check_death_status(prog, i))
 				break ;
-			if (!check_meal_status(prog, i))
-				break ;
+			if (prog->philos[0].meals_to_finish != -1)
+				if (!check_meal_status(prog, i))
+					break ;
 			i++;
 		}
-		usleep(100);
+		usleep(500);
 	}
 }
