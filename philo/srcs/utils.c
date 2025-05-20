@@ -6,11 +6,29 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 05:50:56 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 20:48:57 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 05:01:13 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+size_t	get_current_millis(void)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		return (0);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep(size_t mls)
+{
+	size_t	start;
+
+	start = get_current_millis();
+	while (get_current_millis() - start < mls)
+		usleep(100);
+}
 
 void	set_program_free(t_program *program)
 {
@@ -39,7 +57,7 @@ void	philo_print(t_philo *philo, char *msg)
 	if (done)
 		return ;
 	pthread_mutex_lock(&p->print_mutex);
-	printf("%zu %zu %s\n", get_current_millis() - p->start_time, philo->id + 1,
-		msg);
+	printf("%zu %zu %s\n", get_current_millis() - p->start_time,
+		philo->id + 1, msg);
 	pthread_mutex_unlock(&p->print_mutex);
 }

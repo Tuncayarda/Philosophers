@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 20:52:09 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 04:13:49 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,16 @@ static pthread_mutex_t	*init_mutexes(t_program *prog)
 		return (NULL);
 	while (i < prog->philo_count)
 	{
-		pthread_mutex_init(&mtxs[i], NULL);
+		if (pthread_mutex_init(&mtxs[i], NULL) != 0)
+		{
+			while (i > 0)
+			{
+				i--;
+				pthread_mutex_destroy(&mtxs[i]);
+			}
+			free(mtxs);
+			return (NULL);
+		}
 		i++;
 	}
 	return (mtxs);
@@ -45,7 +54,7 @@ static void	assign_forks(t_program *prog, t_philo *philo)
 	}
 }
 
-static char	*init_single_philo(t_program *prog, char **av, int ac, int i)
+char	*init_single_philo(t_program *prog, char **av, int ac, int i)
 {
 	prog->philos[i].id = i;
 	prog->philos[i].eaten_meals = 0;
@@ -54,7 +63,7 @@ static char	*init_single_philo(t_program *prog, char **av, int ac, int i)
 	prog->philos[i].time_to_sleep = ft_atoi(av[4]);
 	prog->philos[i].last_meal = get_current_millis();
 	if (prog->philos[i].last_meal == 0)
-		return (GET_TIME_OF_DAY_ERROR);
+		return ("Failed to get current time.");
 	if (ac == 6)
 		prog->philos[i].meals_to_finish = ft_atoi(av[5]);
 	else
@@ -68,15 +77,18 @@ static char	*init_single_philo(t_program *prog, char **av, int ac, int i)
 
 char	*init_philos(int ac, char **av, t_program *prog)
 {
-	int	i;
+	size_t	i;
+	char	*error;
 
 	prog->philos = malloc(prog->philo_count * sizeof(t_philo));
 	if (!prog->philos)
-		return (MEMORY_FAILURE);
+		return ("Failed to allocate philosopher array.");
 	i = 0;
 	while (i < prog->philo_count)
 	{
-		init_single_philo(prog, av, ac, i);
+		error = init_single_philo(prog, av, ac, i);
+		if (error)
+			return (error);
 		i++;
 	}
 	return (NULL);
@@ -88,15 +100,16 @@ char	*init_program(t_program **prog_ptr, int ac, char **av)
 
 	*prog_ptr = malloc(sizeof(t_program));
 	if (!*prog_ptr)
-		return (MEMORY_FAILURE);
-	(*prog_ptr)->finished = false;
+		return ("Failed to allocate program structure.");
 	(*prog_ptr)->philo_count = ft_atoi(av[1]);
-	pthread_mutex_init(&(*prog_ptr)->state_mutex, NULL);
-	pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL);
-	pthread_mutex_init(&(*prog_ptr)->prog_mutex, NULL);
+	(*prog_ptr)->finished = false;
+	if (pthread_mutex_init(&(*prog_ptr)->state_mutex, NULL) != 0
+		|| pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL) != 0
+		|| pthread_mutex_init(&(*prog_ptr)->prog_mutex, NULL) != 0)
+		return ("Mutex initialization failed.");
 	(*prog_ptr)->forks = init_mutexes(*prog_ptr);
 	if (!(*prog_ptr)->forks)
-		return (MEMORY_FAILURE);
+		return ("Fork mutex allocation or initialization failed.");
 	error = init_philos(ac, av, *prog_ptr);
 	if (error)
 		return (error);

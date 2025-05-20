@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 12:02:30 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 22:14:27 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 04:50:29 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,29 @@ void	leave_forks(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	pthread_mutex_lock(philo->l_fork);
-	philo_print(philo, "has taken a fork");
-	pthread_mutex_lock(philo->r_fork);
-	philo_print(philo, "has taken a fork");
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		philo_print(philo, "has taken a fork");
+		pthread_mutex_lock(philo->l_fork);
+		philo_print(philo, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		philo_print(philo, "has taken a fork");
+		pthread_mutex_lock(philo->r_fork);
+		philo_print(philo, "has taken a fork");
+	}
 }
 
 void	philo_eat(t_philo *philo)
 {
 	take_forks(philo);
 	philo_print(philo, "is eating");
-	pthread_mutex_lock(&philo->prog->state_mutex);
 	philo->last_meal = get_current_millis();
 	if (philo->meals_to_finish != -1)
 		philo->eaten_meals++;
-	pthread_mutex_unlock(&philo->prog->state_mutex);
 	ft_usleep(philo->time_to_eat);
 	leave_forks(philo);
 }

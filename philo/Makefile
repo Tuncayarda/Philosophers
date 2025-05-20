@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS =
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_FILES = $(wildcard srcs/*.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)

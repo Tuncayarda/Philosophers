@@ -6,26 +6,26 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/19 22:11:28 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 05:03:08 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-bool	check_death_status(t_program *prog, t_philo *philo, size_t idx)
+bool	check_death_status(t_program *prog, size_t idx)
 {
 	size_t	i;
 
+	i = 0;
 	pthread_mutex_lock(&prog->state_mutex);
 	if (get_current_millis()
 		- prog->philos[idx].last_meal > prog->philos[idx].time_to_die)
 	{
-		i = 0;
+		pthread_mutex_unlock(&prog->state_mutex);
+		philo_print(&prog->philos[idx], "died");
+		pthread_mutex_lock(&prog->state_mutex);
 		while (i < prog->philo_count)
 			prog->philos[i++].alive = false;
-		pthread_mutex_unlock(&prog->state_mutex);
-		philo_print(philo, "died");
-		pthread_mutex_lock(&prog->state_mutex);
 		prog->finished = true;
 		pthread_mutex_unlock(&prog->state_mutex);
 		return (false);
@@ -41,9 +41,10 @@ static void	clear_all(t_program *prog)
 	i = 0;
 	while (i < prog->philo_count)
 		prog->philos[i++].alive = false;
+	prog->finished = true;
 }
 
-bool	check_meal_status(t_program *prog, t_philo *philo, size_t idx)
+bool	check_meal_status(t_program *prog, size_t idx)
 {
 	size_t	i;
 
@@ -64,21 +65,18 @@ bool	check_meal_status(t_program *prog, t_philo *philo, size_t idx)
 void	routine_check(t_program *prog)
 {
 	size_t	i;
-	bool	loop;
 
-	loop = true;
-	while (loop)
+	while (!prog->finished)
 	{
 		i = 0;
-		while (i < prog->philo_count)
+		while (i < prog->philo_count && !prog->finished)
 		{
-			loop = check_death_status(prog, &prog->philos[i], i);
-			if (!loop)
+			if (!check_death_status(prog, i))
 				break ;
-			loop = check_meal_status(prog, &prog->philos[i], i);
-			if (!loop)
+			if (!check_meal_status(prog, i))
 				break ;
 			i++;
 		}
+		usleep(100);
 	}
 }
