@@ -1,7 +1,7 @@
 # Philosophers
 
 > An implementation of Edsger Dijkstra’s famous **Dining Philosophers** concurrency problem, written in C for the 42 Cursus.  
-> The goal is to model five (or more) philosophers who must share forks, eat, think and sleep without starving or dead-locking one another.
+> The goal is to model philosophers who must share forks, eat, think and sleep without starving or dead-locking one another.
 
 ## 📁 Directory Layout
 
