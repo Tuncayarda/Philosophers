@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 04:52:09 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 05:00:59 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:27:50 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ struct s_program
 	size_t			philo_count;
 	size_t			start_time;
 	size_t			thread_count;
-	int				philo_status;
 	bool			finished;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prog_mutex;
@@ -67,7 +66,6 @@ char		*init_program(t_program **prog_ptr, int ac, char **av);
 char		*born_philos(t_program *prog);
 void		set_program_free(t_program *program);
 
-void		*philo_routine(void *arg);
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_print(t_philo *philo, char *msg);

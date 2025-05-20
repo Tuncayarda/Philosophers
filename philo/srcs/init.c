@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 04:13:49 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:52:26 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void	assign_forks(t_program *prog, t_philo *philo)
 	}
 	else
 	{
-		philo->l_fork = &prog->forks[philo->id];
-		philo->r_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
+		philo->r_fork = &prog->forks[philo->id];
+		philo->l_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
 	}
 }
 

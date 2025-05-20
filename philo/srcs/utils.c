@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 05:50:56 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 05:01:13 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 21:27:26 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_usleep(size_t mls)
 
 	start = get_current_millis();
 	while (get_current_millis() - start < mls)
-		usleep(100);
+		usleep(500);
 }
 
 void	set_program_free(t_program *program)

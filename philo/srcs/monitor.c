@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 05:08:22 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/20 21:39:28 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	check_death_status(t_program *prog, size_t idx)
 		pthread_mutex_unlock(&prog->state_mutex);
 		philo_print(&prog->philos[idx], "died");
 		pthread_mutex_lock(&prog->state_mutex);
+		prog->finished = true;
 		while (i < prog->philo_count)
 			prog->philos[i++].alive = false;
-		prog->finished = true;
 		pthread_mutex_unlock(&prog->state_mutex);
 		return (false);
 	}
@@ -73,6 +73,5 @@ void	routine_check(t_program *prog)
 					break ;
 			i++;
 		}
-		usleep(500);
 	}
 }

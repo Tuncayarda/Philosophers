@@ -1,8 +1,10 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 
-SRC_FILES = $(wildcard srcs/*.c)
+SRC_FILES = srcs/checkErrors.c srcs/init.c srcs/lib_utils.c \
+			srcs/main.c srcs/monitor.c srcs/routine_utils.c \
+			srcs/routine.c srcs/utils.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 OBJS = $(patsubst srcs/%.c, objs/%.o, $(SRC_FILES))
