@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 20:52:26 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:30:47 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,8 @@ static void	assign_forks(t_program *prog, t_philo *philo)
 {
 	if (!prog->forks)
 		return ;
-	if (philo->id % 2 == 0)
-	{
-		philo->r_fork = &prog->forks[philo->id];
-		philo->l_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
-	}
-	else
-	{
-		philo->r_fork = &prog->forks[philo->id];
-		philo->l_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
-	}
+	philo->r_fork = &prog->forks[philo->id];
+	philo->l_fork = &prog->forks[(philo->id + 1) % prog->philo_count];
 }
 
 char	*init_single_philo(t_program *prog, char **av, int ac, int i)
