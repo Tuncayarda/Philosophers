@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 04:52:09 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/20 20:27:50 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/24 01:17:50 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ struct s_program
 	t_philo			*philos;
 	size_t			philo_count;
 	size_t			start_time;
-	size_t			thread_count;
 	bool			finished;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	prog_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	state_mutex;
 };

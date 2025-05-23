@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:29:43 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/22 20:30:47 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/24 01:17:56 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ char	*init_program(t_program **prog_ptr, int ac, char **av)
 	(*prog_ptr)->philo_count = ft_atoi(av[1]);
 	(*prog_ptr)->finished = false;
 	if (pthread_mutex_init(&(*prog_ptr)->state_mutex, NULL) != 0
-		|| pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL) != 0
-		|| pthread_mutex_init(&(*prog_ptr)->prog_mutex, NULL) != 0)
+		|| pthread_mutex_init(&(*prog_ptr)->print_mutex, NULL) != 0)
 		return ("Mutex initialization failed.");
 	(*prog_ptr)->forks = init_mutexes(*prog_ptr);
 	if (!(*prog_ptr)->forks)
