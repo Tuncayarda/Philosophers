@@ -6,7 +6,7 @@
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 07:29:04 by tuaydin           #+#    #+#             */
-/*   Updated: 2025/05/24 01:20:26 by tuaydin          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:21:29 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void	routine_check(t_program *prog)
 					break ;
 			i++;
 		}
-		usleep(500);
+		usleep(100);
 	}
 }
